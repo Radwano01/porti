@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import FallingStarsScene from "../components/three/FallingStarsScene";
+import Moon from "../components/three/Moon";
 
 export default function Services() {
   const fromRight = {
@@ -22,14 +23,18 @@ export default function Services() {
       id="services"
       className="relative min-h-screen bg-[#05060f] px-12 py-24 text-white overflow-hidden"
     >
-      {/* ⭐ FALLING STARS BACKGROUND */}
+      {/* 🌕 MOON (ABOVE STARS) */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
+        <Moon />
+      </div>
+
+      {/* ⭐ FALLING STARS */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <FallingStarsScene />
       </div>
-
+      
       {/* CONTENT */}
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* TITLE */}
         <motion.h2
           className="text-5xl font-semibold tracking-tight
           bg-gradient-to-br from-white via-[#cfd4ff] to-white
@@ -42,7 +47,6 @@ export default function Services() {
           Services
         </motion.h2>
 
-        {/* CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {[fromRight, fromBottom, fromLeft, fromRight, fromBottom, fromLeft].map(
             (variant, i) => (

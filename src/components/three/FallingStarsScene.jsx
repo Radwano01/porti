@@ -20,7 +20,7 @@ export default function FallingStarsScene() {
     <Canvas
       camera={{ position: [0, 0, 12], fov: 60 }}
       style={{ position: "absolute", inset: 0 }}
-      gl={{ alpha: false }}
+      gl={{ alpha: true }}
     >
       <color attach="background" args={["#000000"]} />
       <ambientLight intensity={0.8} />

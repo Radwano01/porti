@@ -12,6 +12,7 @@ export default function FallingStars({
   speedMultiplier = 0.2,
 }) {
   const points = useRef();
+  const materialRef = useRef();
   const { starMode } = useStarMode();
 
   const speeds = useRef(new Float32Array(count));
@@ -19,7 +20,11 @@ export default function FallingStars({
   const state = useRef(new Uint8Array(count));
   const distances = useRef(new Float32Array(count));
 
-  const transition = useRef({ active: false, radius: 0, target: starMode });
+  const transition = useRef({
+    active: false,
+    radius: 0,
+    target: starMode,
+  });
 
   // ----------------------- Geometry -----------------------
   const geometry = useMemo(() => {
@@ -35,7 +40,6 @@ export default function FallingStars({
 
       speeds.current[i] = THREE.MathUtils.randFloat(2.0, 3.5);
 
-      // Random base color
       let color;
       if (burningColors) {
         const t = Math.random();
@@ -51,7 +55,10 @@ export default function FallingStars({
       colors[i3 + 2] = baseColors.current[i3 + 2] = color.b;
 
       state.current[i] = 0;
-      distances.current[i] = Math.sqrt(positions[i3] ** 2 + positions[i3 + 1] ** 2);
+      distances.current[i] = Math.hypot(
+        positions[i3],
+        positions[i3 + 1]
+      );
     }
 
     const geo = new THREE.BufferGeometry();
@@ -60,11 +67,20 @@ export default function FallingStars({
     return geo;
   }, [count, spreadX, spreadY, burningColors]);
 
-  const starTexture = useMemo(() => new THREE.TextureLoader().load(starTextureImg), []);
+  // ----------------------- Texture -----------------------
+  const starTexture = useMemo(() => {
+    const tex = new THREE.TextureLoader().load(starTextureImg);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = false;
+    return tex;
+  }, []);
 
-  // ----------------------- Update baseColors on burningColors/starMode change -----------------------
+  // ----------------------- Update colors on mode change -----------------------
   useEffect(() => {
     if (!points.current) return;
+
     const colors = points.current.geometry.attributes.color.array;
 
     for (let i = 0; i < count; i++) {
@@ -89,7 +105,7 @@ export default function FallingStars({
         colors[i3 + 1] = color.g;
         colors[i3 + 2] = color.b;
         state.current[i] = 0;
-      } else if (starMode === "white") {
+      } else {
         colors[i3] = colors[i3 + 1] = colors[i3 + 2] = 1;
         state.current[i] = 1;
       }
@@ -126,13 +142,16 @@ export default function FallingStars({
         col[i3 + 2] = baseColors.current[i3 + 2];
       }
 
-      // ----------------------- Smooth transition -----------------------
+      // -------- radial smooth transition --------
       if (!burningColors && transition.current.active) {
         if (distances.current[i] < transition.current.radius) {
           if (transition.current.target === "white" && state.current[i] === 0) {
             col[i3] = col[i3 + 1] = col[i3 + 2] = 1;
             state.current[i] = 1;
-          } else if (transition.current.target === "color" && state.current[i] === 1) {
+          } else if (
+            transition.current.target === "color" &&
+            state.current[i] === 1
+          ) {
             col[i3] = baseColors.current[i3];
             col[i3 + 1] = baseColors.current[i3 + 1];
             col[i3 + 2] = baseColors.current[i3 + 2];
@@ -142,27 +161,46 @@ export default function FallingStars({
       }
     }
 
-    // Update transition radius
     if (!burningColors && transition.current.active) {
       transition.current.radius += 0.06 * speedMultiplier;
-      if (transition.current.radius > spreadX + spreadY) transition.current.active = false;
+      if (transition.current.radius > spreadX + spreadY) {
+        transition.current.active = false;
+      }
     }
 
     points.current.geometry.attributes.position.needsUpdate = true;
     points.current.geometry.attributes.color.needsUpdate = true;
   });
 
+  // ----------------------- Render -----------------------
   return (
     <points ref={points} geometry={geometry}>
       <pointsMaterial
-        size={0.2}
+        ref={materialRef}
+        size={0.35}
         sizeAttenuation
-        vertexColors
         map={starTexture}
+        vertexColors
         transparent
-        alphaTest={0.02}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
+        toneMapped={false}
+        onBeforeCompile={(shader) => {
+          if (shader.__bgFixed) return;
+          shader.__bgFixed = true;
+
+          shader.fragmentShader = shader.fragmentShader.replace(
+            "#include <map_particle_fragment>",
+            `
+              vec4 texelColor = texture2D(map, gl_PointCoord);
+              float luminance = dot(texelColor.rgb, vec3(0.299, 0.587, 0.114));
+
+              if (luminance < 0.12) discard;
+
+              diffuseColor *= texelColor;
+            `
+          );
+        }}
       />
     </points>
   );
