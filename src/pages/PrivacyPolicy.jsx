@@ -1,5 +1,7 @@
-import { motion } from "framer-motion";
-import Navbar from "../components/Navbar";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import FallingStarsScene from "../components/three/FallingStarsScene";
+import Earth from "../components/three/Earth";
 
 const sections = [
   {
@@ -30,50 +32,94 @@ const sections = [
 ];
 
 export default function PrivacyPolicy() {
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const toggleAccordion = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+
   return (
-    <div className="relative w-full min-h-screen bg-[#05060f] text-white font-sans">
-      {/* Navbar */}
-      <Navbar />
+    <section className="relative w-full min-h-screen overflow-hidden">
 
-      {/* Hero Section */}
-      <motion.section
-        className="relative w-full h-64 flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <h1 className="text-4xl sm:text-5xl font-bold">
+      {/* 🌍 Earth Planet (SAME IMPLEMENTATION AS SUN IN ABOUT) */}
+<div className="absolute inset-x-0 bottom-0 h-[55vh] z-10 pointer-events-none overflow-hidden">
+  <Earth />
+</div>
+
+      {/* 🌠 Falling Stars Background (same as About page) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <FallingStarsScene />
+      </div>
+
+      {/* 🌟 Main Content */}
+      <div className="relative z-20 max-w-5xl mx-auto px-6 py-20 space-y-6">
+
+        {/* Page Title */}
+        <motion.h1
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-10"
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
           Privacy & Policy
-        </h1>
-      </motion.section>
+        </motion.h1>
 
-      {/* Accordion Sections */}
-      <section className="max-w-4xl mx-auto px-6 py-12 space-y-6">
+        {/* Accordion Sections */}
         {sections.map((section, index) => (
           <motion.div
             key={index}
-            className="bg-[#11121a] p-6 rounded-xl shadow-lg cursor-pointer hover:bg-[#1a1b27] transition-colors"
+            onClick={() => toggleAccordion(index)}
+            className={`
+              relative p-6 rounded-2xl cursor-pointer backdrop-blur-xl
+              bg-gradient-to-br from-[#0f766e]/40 to-[#0284c7]/30
+              border border-cyan-400/20
+              shadow-lg shadow-cyan-500/10
+              transition-all duration-300
+              hover:from-[#14b8a6]/50 hover:to-[#38bdf8]/40
+              ${activeIndex === index ? "shadow-cyan-400/30" : ""}
+            `}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: index * 0.12 }}
           >
-            <h2 className="text-xl sm:text-2xl font-semibold mb-2">{section.title}</h2>
-            <p className="text-gray-300 leading-relaxed">{section.content}</p>
+            {/* Aqua Accent Line */}
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
+
+            {/* Header */}
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl sm:text-2xl font-semibold text-white">
+                {section.title}
+              </h2>
+
+              <motion.span
+                animate={{ rotate: activeIndex === index ? 45 : 0 }}
+                transition={{ duration: 0.25 }}
+                className="text-2xl font-bold text-cyan-300"
+              >
+                +
+              </motion.span>
+            </div>
+
+            {/* Content */}
+            <AnimatePresence initial={false}>
+              {activeIndex === index && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="overflow-hidden mt-4 text-white/85 leading-relaxed"
+                >
+                  {section.content}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         ))}
-      </section>
 
-      {/* Footer */}
-      <motion.footer
-        className="w-full py-8 text-center text-gray-400 border-t border-gray-700 mt-12"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.5 }}
-      >
-        &copy; {new Date().getFullYear()} Your Company. All rights reserved.
-      </motion.footer>
-    </div>
+      </div>
+    </section>
   );
 }

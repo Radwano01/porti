@@ -1,7 +1,5 @@
 // src/pages/About.jsx
 import { motion } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
-import FallingStars from "../components/three/FallingStars";
 import Sun from "../components/three/Sun";
 import FallingStarsScene from "../components/three/FallingStarsScene";
 

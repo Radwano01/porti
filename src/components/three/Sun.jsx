@@ -43,7 +43,7 @@ function SunMesh() {
       position={[6.2, 0, 0]}
       scale={3.6}
       rotation={[
-        THREE.MathUtils.degToRad(150),
+        THREE.MathUtils.degToRad(170),
         THREE.MathUtils.degToRad(-30),
         0,
       ]}
