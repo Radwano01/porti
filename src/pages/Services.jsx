@@ -52,7 +52,7 @@ export default function Services() {
             (variant, i) => (
               <motion.div
                 key={i}
-                className="relative card-border-animation purple rounded-2xl p-[3px]"
+                className="relative card-border-animation black rounded-2xl p-[3px]"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}

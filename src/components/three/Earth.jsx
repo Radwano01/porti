@@ -34,10 +34,10 @@ function EarthMesh() {
 
   return (
     <group
-      position={[0, -5, 0]} // ⬇ pushes earth DOWN (THIS creates the horizon)
-      scale={8.5}             // ⬆ big so it fills width
+      position={[0, -2.6, 0]} // ⬇ pushes earth DOWN (THIS creates the horizon)
+      scale={5.5}             // ⬆ big so it fills width
       rotation={[
-        THREE.MathUtils.degToRad(8),
+        THREE.MathUtils.degToRad(10),
         THREE.MathUtils.degToRad(-15),
         0,
       ]}
@@ -54,7 +54,7 @@ export default function Earth() {
   return (
     <Canvas
       className="absolute inset-0 pointer-events-none"
-      camera={{ position: [0, 0, 8], fov: 38 }}
+      camera={{ position: [0, 0, 8], fov: 45 }}
       gl={{ antialias: true, alpha: true }}
     >
       <ambientLight intensity={0.25} />

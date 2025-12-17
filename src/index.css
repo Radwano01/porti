@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -28,21 +29,17 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    to bottom,
-    purple,
-    purple
-  );
+  background: linear-gradient(to bottom,
+      purple,
+      purple);
   border-radius: 9999px;
   border: 2px solid #05060f;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    to bottom,
-    purple,
-    purple
-  );
+  background: linear-gradient(to bottom,
+      purple,
+      purple);
 }
 
 /* Firefox */
@@ -69,7 +66,7 @@ html, body {
   height: calc(100% + 12px);
   border-radius: 9999px;
   transform: translate(-50%, -50%);
-  background: linear-gradient(45deg, #fff, #00f, #fff, #00f);
+  background: linear-gradient(45deg, #fff, #8400ff, #fff, #8400ff);
   background-size: 200% 200%;
   filter: blur(4px);
   z-index: -2;
@@ -84,7 +81,7 @@ html, body {
   height: calc(100% + 12px);
   border-radius: 9999px;
   transform: translate(-50%, -50%) scaleX(-1);
-  background: linear-gradient(45deg, #fff, #00f, #fff, #00f);
+  background: linear-gradient(45deg, #fff, #7c00f0, #fff, #8400ff);
   background-size: 200% 200%;
   filter: blur(4px);
   z-index: -3;
@@ -93,9 +90,17 @@ html, body {
 }
 
 @keyframes glow-move {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .btn-main {
@@ -110,7 +115,7 @@ html, body {
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255,255,255,0.4);
+  border: 1px solid rgba(168, 85, 247, 0.6);
   background-color: #d1d1d1;
   color: #5A250A;
   overflow: hidden;
@@ -129,12 +134,10 @@ html, body {
   width: 120%;
   height: 120%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(255,255,255,0.3) 0%,
-    rgba(0,170,255,0.2) 50%,
-    transparent 80%
-  );
+  background: radial-gradient(circle,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(0, 170, 255, 0.2) 50%,
+      transparent 80%);
   filter: blur(8px);
   z-index: -1;
 }
@@ -150,13 +153,11 @@ html, body {
   padding: 4px 0;
   cursor: pointer;
 
-  background-image: linear-gradient(
-    to right,
-    #23abd4 0%,
-    #23abd4 50%,
-    #ffffff 50%,
-    #ffffff 100%
-  );
+  background-image: linear-gradient(to right,
+      #7c00f0 0%,
+      #7c00f0 50.2%,
+      #ffffff 50%,
+      #ffffff 100%);
   background-size: 200% 100%;
   background-position: 100% 100%;
 
@@ -174,7 +175,7 @@ html, body {
   bottom: -4px;
   width: 0%;
   height: 2px;
-  background-color: #23abd4;
+  background-color: #7c00f0;
   transition: width 0.35s ease-in-out;
 }
 
@@ -199,25 +200,44 @@ html, body {
 }
 
 .card-border-animation.yellow {
-  background-image: linear-gradient(
-    90deg,
-    #ffffff,
-    #FC9601,
-    #ffffff
-  );
+  background-image: linear-gradient(90deg,
+      #ffffff,
+      #FC9601,
+      #ffffff);
 }
 
-.card-border-animation.purple {
-  background-image: linear-gradient(
-    90deg,
-    white,
-    purple,
-    blue
-  );
+.card-border-animation.black {
+  background-image: linear-gradient(90deg,
+      white,
+      black,
+      grey);
 }
 
 @keyframes border-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.btn-hover-circle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 0;
+}
+
+/* SHOW CIRCLE ONLY ON HOVER */
+.btn-main:hover .btn-hover-circle {
+  opacity: 1;
 }
