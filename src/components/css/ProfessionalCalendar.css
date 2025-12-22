@@ -1,0 +1,13 @@
+.perspective-wrapper {
+  perspective: 1000px;
+}
+
+.calendar-3d-card {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out; /* smooth following */
+}
+
+/* Hover 3D tilt animation */
+.calendar-3d-card:hover {
+  transform: rotateY(-10deg) rotateX(6deg) translateZ(10px);
+}
