@@ -69,11 +69,6 @@ export default function Navbar() {
         {/* NAV LINKS */}
         <div className="flex items-center gap-6">
 
-          {/* ABOUT */}
-          <button onClick={() => scrollTo("about")} className="nav-link">
-            ABOUT US
-          </button>
-
           {/* SERVICES DROPDOWN */}
           <div
             className="relative"
@@ -130,6 +125,11 @@ export default function Navbar() {
 
           </div>
 
+          {/* ABOUT */}
+          <button onClick={() => scrollTo("about")} className="nav-link">
+            ABOUT US
+          </button>
+
           {/* CONTACT */}
           <button className="contact-btn" onClick={() => navigate("/contact")}>
             <span>CONTACT</span>
@@ -140,3 +140,4 @@ export default function Navbar() {
     </nav>
   );
 }
+
