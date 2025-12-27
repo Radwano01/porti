@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo1 from "../assets/logo1.png";
 import logo2 from "../assets/logo2.png";
-import "../css/navbar.css";
+import "../css/Navbar.css";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
