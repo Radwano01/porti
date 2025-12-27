@@ -126,13 +126,7 @@ export default function Navbar() {
           </div>
 
           {/* ABOUT */}
-<<<<<<< HEAD
           <button onClick={() => scrollTo("about")} className="nav-link">ABOUT US</button>
-=======
-          <button onClick={() => scrollTo("about")} className="nav-link">
-            ABOUT US
-          </button>
->>>>>>> c2045c2c5793d2a1a37f22a701a1dddabaedc406
 
           {/* CONTACT */}
           <button className="contact-btn" onClick={() => navigate("/contact")}>
@@ -143,4 +137,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
