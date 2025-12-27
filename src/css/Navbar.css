@@ -84,7 +84,6 @@
   position: relative;
   font-weight: 600;
   font-size: 14px;
-  padding: 4px 0;
   cursor: pointer;
 
   background-image: linear-gradient(to right,
@@ -120,3 +119,41 @@
 .nav-link:hover::after {
   width: 100%;
 }
+
+/* SERVICES UNDERLINE */
+.services-button {
+  position: relative;
+}
+
+/* SERVICES MENU ANIMATION */
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+
+.animate-option-left {
+  animation: slideLeft 0.4s ease-out forwards;
+}
+
+.animate-option-right {
+  animation: slideRight 0.4s ease-out forwards;
+}
+
+.transition-opacity {
+  transition: opacity 0.25s ease-in-out;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
