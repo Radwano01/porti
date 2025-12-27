@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FallingStarsScene from "../components/three/FallingStarsScene";
-import Earth from "../components/three/Earth";
 
 const sections = [
   {
@@ -40,11 +39,6 @@ export default function PrivacyPolicy() {
 
   return (
     <section className="relative w-full min-h-screen overflow-hidden">
-
-      {/* 🌍 Earth Planet (SAME IMPLEMENTATION AS SUN IN ABOUT) */}
-<div className="absolute inset-x-0 bottom-0 h-[55vh] z-10 pointer-events-none overflow-hidden">
-  <Earth />
-</div>
 
       {/* 🌠 Falling Stars Background (same as About page) */}
       <div className="absolute inset-0 z-0 pointer-events-none">

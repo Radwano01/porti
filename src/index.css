@@ -48,61 +48,6 @@ body {
   scrollbar-color: purple #05060f;
 }
 
-/* ========================= */
-/*        BUTTON GLOW        */
-/* ========================= */
-
-.btn-wrapper {
-  position: relative;
-  display: inline-flex;
-  z-index: 10;
-}
-
-.btn-glow-layer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(100% + 12px);
-  height: calc(100% + 12px);
-  border-radius: 9999px;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(45deg, #fff, #8400ff, #fff, #8400ff);
-  background-size: 200% 200%;
-  filter: blur(4px);
-  z-index: -2;
-  animation: glow-move 4s linear infinite;
-}
-
-.btn-glow-layer-mirror {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(100% + 12px);
-  height: calc(100% + 12px);
-  border-radius: 9999px;
-  transform: translate(-50%, -50%) scaleX(-1);
-  background: linear-gradient(45deg, #fff, #7c00f0, #fff, #8400ff);
-  background-size: 200% 200%;
-  filter: blur(4px);
-  z-index: -3;
-  animation: glow-move 4s linear infinite;
-  opacity: 0.6;
-}
-
-@keyframes glow-move {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 .btn-main {
   position: relative;
   z-index: 10;
@@ -141,51 +86,6 @@ body {
       transparent 80%);
   filter: blur(8px);
   z-index: -1;
-}
-
-/* ========================= */
-/*        NAV LINKS          */
-/* ========================= */
-
-.nav-link {
-  position: relative;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 4px 0;
-  cursor: pointer;
-
-  background-image: linear-gradient(to right,
-      #7c00f0 0%,
-      #7c00f0 50.2%,
-      #ffffff 50%,
-      #ffffff 100%);
-  background-size: 200% 100%;
-  background-position: 100% 100%;
-
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  transition: background-position 0.35s ease-in-out;
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0%;
-  height: 2px;
-  background-color: #7c00f0;
-  transition: width 0.35s ease-in-out;
-}
-
-.nav-link:hover {
-  background-position: 200% 100%;
-}
-
-.nav-link:hover::after {
-  width: 100%;
 }
 
 /* ========================= */

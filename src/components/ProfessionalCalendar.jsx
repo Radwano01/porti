@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
-import "./css/ProfessionalCalendar.css";
+import "../css/ProfessionalCalendar.css";
 
 const months = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
-export default function ProfessionalCalendar({ onSelect, onTimeChange }) {
+export default function ProfessionalCalendar() {
   const [monthIndex, setMonthIndex] = useState(new Date().getMonth());
   const [year, setYear] = useState(new Date().getFullYear());
   const [selectedDay, setSelectedDay] = useState(null);
@@ -17,8 +17,6 @@ export default function ProfessionalCalendar({ onSelect, onTimeChange }) {
 
   const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-
-  const handleDayClick = (day) => setSelectedDay(day);
 
   const prevMonth = () => {
     if (monthIndex === 0) { setMonthIndex(11); setYear(year - 1); }
