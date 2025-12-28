@@ -23,6 +23,10 @@ module.exports = {
         'gradient-rotate': 'gradient-rotate 4s ease infinite',
         blink: 'blink 1s step-start infinite',
       },
+      fontFamily: {
+        heading: ['Lovelo', 'sans-serif'], // for titles
+        body: ['Roboto', 'sans-serif'],    // for paragraphs
+      },
     },
   },
   plugins: [],

@@ -1,3 +1,14 @@
+.navbar {
+  background-color: transparent; /* no solid color initially */
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.navbar--scrolled {
+  background-color: rgba(0,0,0,0.3); /* semi-transparent */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 .logo-flip-wrapper {
   width: 7rem;
   height: 7rem;
@@ -41,8 +52,6 @@
   }
 }
 
-
-
 .contact-btn {
   padding: 0.1em 0.25em;
   width: 9.7em;
@@ -67,7 +76,6 @@
   font-size: 1.5em;
   color: #ffffff;
   border: 0.08em solid #ffffff;
-  box-shadow: 0 0.4em 0.1em 0.019em #ffffff;
   transition: all 0.5s;
 }
 

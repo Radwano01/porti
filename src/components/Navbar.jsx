@@ -5,6 +5,7 @@ import logo2 from "../assets/logo2.png";
 import "../css/Navbar.css";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -28,8 +29,8 @@ export default function Navbar() {
     } else {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }
-    // Do NOT close dropdown on click if hovering
-    // handleCloseDropdown(); <-- remove this line
+    setOpen(false);
+    handleCloseDropdown();
   };
 
   const handleOpenDropdown = () => {
@@ -39,22 +40,23 @@ export default function Navbar() {
   };
 
   const handleCloseDropdown = () => {
-    setDropdownVisible(false); // fade out
+    setDropdownVisible(false); // triggers fade-out
+    // wait for animation duration before removing from DOM
     timeoutRef.current = setTimeout(() => {
       setServicesOpen(false);
-    }, 250); // match CSS transition duration
+    }, 250); // matches CSS transition-duration
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md navbar ${
-        isScrolled ? "navbar--scrolled" : ""
-      }`}
-    >
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-black/30 backdrop-blur-lg shadow-lg" : "bg-transparent"}`}>
+
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
         {/* LOGO */}
-        <div className="logo-flip-wrapper cursor-pointer" onClick={() => scrollTo("top")}>
+        <div
+          className="logo-flip-wrapper cursor-pointer"
+          onClick={() => scrollTo("top")}
+        >
           <div className="logo-flip-inner">
             <img src={logo1} alt="Logo front" className="logo-face logo-front" />
             <img src={logo2} alt="Logo back" className="logo-face logo-back" />
@@ -71,24 +73,17 @@ export default function Navbar() {
             onMouseLeave={handleCloseDropdown}
           >
             <button
-              onClick={() => scrollTo("services")} // click scrolls to section
+              onClick={dropdownVisible ? handleCloseDropdown : handleOpenDropdown}
               className="nav-link services-button"
             >
               SERVICES
               <span className="services-underline"></span>
             </button>
 
-            {/* Dropdown Menu */}
             {servicesOpen && (
               <div
-                className={`absolute left-1/2 top-full mt-4 -translate-x-1/2 z-50 transition-opacity duration-300 ${
-                  dropdownVisible ? "opacity-100" : "opacity-0"
-                }`}
-                onMouseEnter={() => {
-                  clearTimeout(timeoutRef.current);
-                  setDropdownVisible(true);
-                }}
-                onMouseLeave={handleCloseDropdown}
+                className={`absolute left-1/2 top-full mt-4 -translate-x-1/2 z-50 transition-opacity duration-250 ${dropdownVisible ? "opacity-100" : "opacity-0"
+                  }`}
               >
                 <div className="w-[720px] rounded-xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-2xl text-white animate-services-menu">
                   {/* HEADER */}
@@ -123,15 +118,19 @@ export default function Navbar() {
                 </div>
               </div>
             )}
+
           </div>
 
           {/* ABOUT */}
-          <button onClick={() => scrollTo("about")} className="nav-link">ABOUT US</button>
+          <button onClick={() => scrollTo("about")} className="nav-link">
+            ABOUT US
+          </button>
 
           {/* CONTACT */}
           <button className="contact-btn" onClick={() => navigate("/contact")}>
             <span>CONTACT</span>
           </button>
+
         </div>
       </div>
     </nav>

@@ -1,125 +1,64 @@
 .button {
-
   font-family: "Rubik", sans-serif;
   cursor: pointer;
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   line-height: 1;
   font-size: 1rem;
   border-radius: 1rem;
-  outline: 2px solid transparent;
-  outline-offset: 6px;
-  color: white;
-  background: transparent;
   border: none;
+  overflow: hidden; /* important for radial circle */
+  color: white;
 }
 
-/* focus / active */
-.button:active,
-.button:focus-visible {
-  outline-color: #facc15;
-}
-
-.button:focus-visible {
-  outline-style: dashed;
-}
-
-/* STAR */
-.button::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  height: 200%;
-  max-height: 100px;
-  aspect-ratio: 1;
-  margin: auto;
-
-  background: white;           /* ← white default */
-  opacity: 0.15;               /* subtle but visible */
-
-  clip-path: polygon(
-    50% 0%,
-    61% 35%,
-    98% 35%,
-    68% 57%,
-    79% 91%,
-    50% 70%,
-    21% 91%,
-    32% 57%,
-    2% 35%,
-    39% 35%
-  );
-
-  animation: star-rotate 4s linear infinite;
-  transition: background 200ms ease, opacity 200ms ease;
-}
-
-.button:hover::before {
-  background: #facc15;   /* yellow on hover */
-  opacity: 0.9;
-}
-
-
-/* OUTER FRAME */
-/* OUTER FRAME */
-.button > div {
+/* BORDER ANIMATION */
+.button > .btn-border {
   padding: 2px;
   border-radius: 1rem;
-
-  background: linear-gradient(
-    90deg,
-    #292524 0%,
-    white 50%,
-    #292524 100%
-  );
-
-  /* important */
+  background: linear-gradient(90deg, #292524 0%, white 50%, #292524 100%);
   background-size: 400% 100%;
-  background-position: 120% 50%; /* ← start from ANY position */
+  background-position: 120% 50%;
   animation: border-flow 4s linear infinite;
-
   transform: translateY(4px);
   transition: transform 150ms ease;
 }
 
-@keyframes border-flow {
-  0% {
-    background-position: 120% 50%;
-  }
-  100% {
-    background-position: -280% 50%;
-  }
-}
-
-
-.button:hover>div {
-  transform: translate(0, 0);
+.button:hover > .btn-border {
+  transform: translateY(0);
 }
 
 /* INNER FRAME */
-.button>div>div {
+.btn-inner {
+  position: relative; /* for radial absolute positioning */
   border-radius: calc(1rem - 2px);
   background-color: #292524;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* important */
 }
 
-/* CONTENT */
-.button span {
-  display: block;
-  padding: 0.75rem 1.25rem;
+/* RADIAL CIRCLE */
+.btn-hover-circle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* behind text */
+}
+
+/* BUTTON TEXT */
+.btn-text {
   position: relative;
   z-index: 2;
+  padding: 0.75rem 1.25rem;
+  color: white;
 }
 
-/* animations */
-@keyframes star-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+/* BORDER FLOW ANIMATION */
+@keyframes border-flow {
+  0% { background-position: 120% 50%; }
+  100% { background-position: -280% 50%; }
 }

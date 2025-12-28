@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function TypingText({ text, speed = 50 }) {
+export default function TypingText({ text, speed = 20 }) {
   const [displayed, setDisplayed] = useState("");
   const [index, setIndex] = useState(0);
 
@@ -16,7 +16,7 @@ export default function TypingText({ text, speed = 50 }) {
   }, [index, text, speed]);
 
   return (
-    <p className="mt-6 text-white/90 text-xl sm:text-lg max-w-md whitespace-pre-wrap font-['Fira_Code']">
+    <p className="mt-6 text-white/90 text-xl sm:text-lg max-w-md whitespace-pre-wrap font-body">
       {displayed}
       <span className="inline-block ml-1 h-6 w-1 bg-white animate-blink" />
     </p>

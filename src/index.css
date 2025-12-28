@@ -1,10 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Lovelo';
+  src: url('/src/assets/fonts/lovelo/Lovelo_Black.otf') format('truetype');
+  font-weight: 900; /* Black weight */
+  font-style: normal;
+}
+
 html,
 body {
-  height: 100%;
   margin: 0;
   padding: 0;
   background: #05060f;
@@ -133,19 +140,4 @@ body {
   100% {
     background-position: 0% 50%;
   }
-}
-
-
-.btn-hover-circle {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  z-index: 0;
-}
-
-/* SHOW CIRCLE ONLY ON HOVER */
-.btn-main:hover .btn-hover-circle {
-  opacity: 1;
 }
