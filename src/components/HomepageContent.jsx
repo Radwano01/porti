@@ -7,7 +7,7 @@ import TypingText from "./TypingText";
 // 🎥 Background video
 import vid from "../assets/white_planet.mp4";
 
-export default function HomepageContent({ startAnimation = true }) {
+export default function HomepageContent({ startAnimation = true, onVideoLoaded }) {
   const [pos, setPos] = useState({ x: 50, y: 50 });
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
@@ -20,10 +20,15 @@ export default function HomepageContent({ startAnimation = true }) {
         autoPlay
         loop
         muted
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover z-0 hero-video"
         src={vid}
+        onLoadedData={onVideoLoaded} // ← notify parent when video is loaded
       />
+
+      {/* 🌑 Dark Overlay */}
       <div className="absolute inset-0 w-full h-full bg-black opacity-50 z-10" />
+
       {/* 🚀 Hero Content */}
       <div className="relative z-20 flex flex-col items-start justify-start h-screen px-12 pt-40 text-left">
 
@@ -36,7 +41,6 @@ export default function HomepageContent({ startAnimation = true }) {
         >
           Mordev Arcane
         </motion.h1>
-
 
         {/* ✍️ Typing Text */}
         <div className="mt-6 max-w-[600px] min-h-[160px]">
@@ -68,12 +72,12 @@ export default function HomepageContent({ startAnimation = true }) {
                   className="btn-hover-circle"
                   style={{
                     background: `radial-gradient(
-              circle 120px at ${pos.x}px ${pos.y}px,
-              rgba(255,255,255),
-              rgba(255,255,255),
-              transparent 20%
-            )`,
-                    opacity: hover ? 1 : 0, // control visibility
+                      circle 120px at ${pos.x}px ${pos.y}px,
+                      rgba(255,255,255),
+                      rgba(255,255,255),
+                      transparent 20%
+                    )`,
+                    opacity: hover ? 1 : 0,
                   }}
                 />
                 <span className="btn-text">Contact Us</span>
@@ -81,7 +85,6 @@ export default function HomepageContent({ startAnimation = true }) {
             </div>
           </button>
         </div>
-
       </div>
     </div>
   );
