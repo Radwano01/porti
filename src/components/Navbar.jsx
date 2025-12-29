@@ -5,7 +5,6 @@ import logo2 from "../assets/logo2.png";
 import "../css/Navbar.css";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -14,25 +13,43 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  /* ===============================
+     SCROLL STATE
+  ================================ */
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollTo = (id) => {
+  /* ===============================
+     NAVIGATION (HOME SECTIONS)
+  ================================ */
+  const navigateToSection = (
+    sectionId,
+    { closeDropdown = true } = {}
+  ) => {
+    const scroll = () => {
+      document
+        .getElementById(sectionId)
+        ?.scrollIntoView({ behavior: "smooth" });
+    };
+
     if (location.pathname !== "/") {
-      navigate("/", { replace: false });
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      navigate("/");
+      setTimeout(scroll, 100);
     } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      scroll();
     }
-    setOpen(false);
-    handleCloseDropdown();
+
+    if (closeDropdown) {
+      handleCloseDropdown();
+    }
   };
 
+  /* ===============================
+     DROPDOWN CONTROLS
+  ================================ */
   const handleOpenDropdown = () => {
     clearTimeout(timeoutRef.current);
     setServicesOpen(true);
@@ -40,22 +57,26 @@ export default function Navbar() {
   };
 
   const handleCloseDropdown = () => {
-    setDropdownVisible(false); // triggers fade-out
-    // wait for animation duration before removing from DOM
+    setDropdownVisible(false);
     timeoutRef.current = setTimeout(() => {
       setServicesOpen(false);
-    }, 250); // matches CSS transition-duration
+    }, 250);
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-black/30 backdrop-blur-lg shadow-lg" : "bg-transparent"}`}>
-
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-black/30 backdrop-blur-lg shadow-lg"
+          : "bg-transparent"
+      }`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
         {/* LOGO */}
         <div
           className="logo-flip-wrapper cursor-pointer"
-          onClick={() => scrollTo("top")}
+          onClick={() => navigateToSection("top")}
         >
           <div className="logo-flip-inner">
             <img src={logo1} alt="Logo front" className="logo-face logo-front" />
@@ -72,8 +93,11 @@ export default function Navbar() {
             onMouseEnter={handleOpenDropdown}
             onMouseLeave={handleCloseDropdown}
           >
+            {/* SERVICES BUTTON */}
             <button
-              onClick={dropdownVisible ? handleCloseDropdown : handleOpenDropdown}
+              onClick={() =>
+                navigateToSection("services", { closeDropdown: false })
+              }
               className="nav-link services-button"
             >
               SERVICES
@@ -82,10 +106,12 @@ export default function Navbar() {
 
             {servicesOpen && (
               <div
-                className={`absolute left-1/2 top-full mt-4 -translate-x-1/2 z-50 transition-opacity duration-250 ${dropdownVisible ? "opacity-100" : "opacity-0"
-                  }`}
+                className={`absolute left-1/2 top-full mt-4 -translate-x-1/2 z-50 transition-opacity duration-250 ${
+                  dropdownVisible ? "opacity-100" : "opacity-0"
+                }`}
               >
                 <div className="w-[720px] rounded-xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-2xl text-white animate-services-menu">
+
                   {/* HEADER */}
                   <div className="border-b border-white/10 px-6 py-4 text-center">
                     <h3 className="text-sm tracking-widest uppercase text-white/80">
@@ -95,39 +121,108 @@ export default function Navbar() {
 
                   {/* CONTENT */}
                   <div className="grid grid-cols-3 gap-10 px-8 py-8 text-sm">
+
                     <ul className="space-y-4">
-                      <li onClick={() => scrollTo("web")} className="hover:text-white transition cursor-pointer animate-option-left">Web Development</li>
-                      <li onClick={() => scrollTo("uiux")} className="hover:text-white transition cursor-pointer animate-option-left">UI / UX Design</li>
-                      <li onClick={() => scrollTo("branding")} className="hover:text-white transition cursor-pointer animate-option-left">Branding</li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-left"
+                      >
+                        Web Development
+                      </li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-left"
+                      >
+                        UI / UX Design
+                      </li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-left"
+                      >
+                        Branding
+                      </li>
                     </ul>
+
                     <ul className="space-y-4">
-                      <li onClick={() => scrollTo("motion")} className="hover:text-white transition cursor-pointer animate-option-right">Motion & 3D</li>
-                      <li className="hover:text-white transition cursor-pointer animate-option-right">Paid Ads Services</li>
-                      <li className="hover:text-white transition cursor-pointer animate-option-right">Shooting Services</li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-right"
+                      >
+                        Motion & 3D
+                      </li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-right"
+                      >
+                        Paid Ads Services
+                      </li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-right"
+                      >
+                        Shooting Services
+                      </li>
                     </ul>
+
                     <ul className="space-y-4">
-                      <li className="hover:text-white transition cursor-pointer animate-option-left">Graphic Design Services</li>
-                      <li className="hover:text-white transition cursor-pointer animate-option-left">Photo Section</li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-left"
+                      >
+                        Graphic Design Services
+                      </li>
+                      <li
+                        onClick={() =>
+                          navigateToSection("services", { closeDropdown: false })
+                        }
+                        className="hover:text-white transition cursor-pointer animate-option-left"
+                      >
+                        Photo Section
+                      </li>
                     </ul>
                   </div>
 
                   {/* FOOTER */}
                   <div className="border-t border-white/10 px-6 py-3 text-center">
-                    <button onClick={handleCloseDropdown} className="text-xs text-white/60 hover:text-white transition">Minimize</button>
+                    <button
+                      onClick={handleCloseDropdown}
+                      className="text-xs text-white/60 hover:text-white transition"
+                    >
+                      Minimize
+                    </button>
                   </div>
                 </div>
               </div>
             )}
-
           </div>
 
           {/* ABOUT */}
-          <button onClick={() => scrollTo("about")} className="nav-link">
+          <button
+            onClick={() => navigateToSection("about")}
+            className="nav-link"
+          >
             ABOUT US
           </button>
 
           {/* CONTACT */}
-          <button className="contact-btn" onClick={() => navigate("/contact")}>
+          <button
+            className="contact-btn"
+            onClick={() => navigate("/contact")}
+          >
             <span>CONTACT</span>
           </button>
 

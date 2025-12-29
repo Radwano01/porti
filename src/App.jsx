@@ -6,6 +6,7 @@ import Services from "./pages/Services";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+import BrandsMarquee from "./pages/BrandsMarquee";
 
 export default function App() {
   return (
@@ -19,13 +20,18 @@ export default function App() {
           element={
             <>
               {/* HOME */}
-              <section id="top" className="h-screen">
+              <section id="top">
                 <Homepage />
               </section>
 
               {/* SERVICES */}
               <section id="services">
                 <Services />
+              </section>
+
+              {/* BRANDS */}
+              <section id="brand">
+                <BrandsMarquee />
               </section>
 
               {/* ABOUT */}

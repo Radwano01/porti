@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import FallingStarsScene from "../components/three/FallingStarsScene";
-import Moon from "../components/three/Moon";
+import serviceBg from "../assets/serviceBackground.png";
 
 export default function Services() {
   const fromRight = {
@@ -21,23 +20,20 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative min-h-screen bg-[#05060f] px-12 py-24 text-white overflow-hidden"
+      className="relative min-h-screen bg-black text-white overflow-hidden"
     >
-      {/* 🌕 MOON (ABOVE STARS) */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        <Moon />
-      </div>
+      {/* BACKGROUND IMAGE (REAL IMG) */}
+      <img
+        src={serviceBg}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
 
-      {/* ⭐ FALLING STARS */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <FallingStarsScene />
-      </div>
-      
       {/* CONTENT */}
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto px-12 py-24">
         <motion.h2
           className="text-5xl font-semibold tracking-tight
-          bg-gradient-to-br from-white via-[#cfd4ff] to-white
+          bg-gradient-to-br from-white
           bg-clip-text text-transparent mb-20"
           initial={{ y: -50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -52,7 +48,7 @@ export default function Services() {
             (variant, i) => (
               <motion.div
                 key={i}
-                className="relative card-border-animation black rounded-2xl p-[3px]"
+                className="relative card-border-animation black rounded-2xl p-[3px] cursor-pointer"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
