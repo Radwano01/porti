@@ -7,11 +7,13 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import BrandsMarquee from "./pages/BrandsMarquee";
+import StoryScroll from "./components/StoryScroll";
 
 export default function App() {
   return (
     <Router>
       <Navbar />
+      <StoryScroll />
 
       <Routes>
         {/* SINGLE PAGE ROUTE */}

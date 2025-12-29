@@ -1,87 +1,54 @@
-// src/pages/About.jsx
 import { motion } from "framer-motion";
-import Sun from "../components/three/Sun";
-import FallingStarsScene from "../components/three/FallingStarsScene";
+import StackedCards from "../components/StackedCards";
 
 export default function About() {
-  const leftVariants = {
-    hidden: { opacity: 0, y: -50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { staggerChildren: 0.3, duration: 1.5 },
-    },
-  };
-
-  const titleVariant = {
-    hidden: { y: -50, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 1.5 } },
-  };
-
-  const textVariant = {
-    hidden: { x: -50, opacity: 0 },
-    visible: { x: 0, opacity: 1, transition: { duration: 1.2 } },
-  };
-
   return (
-    <section className="relative w-full min-h-screen">
-
-      {/* Sun Planet */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        <Sun />
+    <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Left side gradient for stacked pages */}
+        <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-black/5 to-transparent" />
+        {/* Right side gradient for selected page */}
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-black/5 to-transparent" />
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/3 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl" />
       </div>
 
-      {/* Falling Stars Background (normal, not burning) */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <FallingStarsScene />
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-20 flex flex-col md:flex-row items-center md:items-start justify-center max-w-7xl mx-auto px-6 py-16 md:py-24 gap-12 md:gap-40">
-
-        {/* Left Text */}
-        <motion.div
-          className="w-full md:w-1/2 text-white"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={leftVariants}
-        >
-          <motion.h2
-            className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-br from-white bg-clip-text text-transparent"
-            variants={titleVariant}
+      {/* Main Content Container - Aligned to handle right shift */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 py-20">
+        {/* Stacked Cards - With extra right padding to accommodate shift */}
+        <div className="pr-0 md:pr-24">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="w-full"
           >
-            About Us
-          </motion.h2>
+            <StackedCards />
+          </motion.div>
+        </div>
 
-          <motion.p
-            className="text-base sm:text-lg leading-relaxed text-white/80 max-w-lg"
-            variants={textVariant}
-          >
-            We are a team of passionate developers and designers, delivering
-            premium digital solutions with cutting-edge interactions and visuals.
-          </motion.p>
-        </motion.div>
-
-        {/* Right Image */}
+        {/* Visual indicator of the layout */}
         <motion.div
-          className="w-full md:w-1/2 flex justify-center md:justify-end"
-          initial={{ x: 100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center space-x-4 text-white/40 text-sm"
         >
-          <div className="relative rounded-2xl p-[3px] card-border-animation yellow max-w-sm sm:max-w-md w-full">
-            <div className="rounded-2xl bg-black/80 backdrop-blur-xl p-4 sm:p-6 aspect-[3/4]">
-              <img
-                src="https://via.placeholder.com/360x460"
-                alt="About"
-                className="rounded-xl object-cover w-full h-full"
-              />
-            </div>
-          </div>
+          <span className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-white/40 rounded-full"></div>
+            <span>Stacked Pages</span>
+          </span>
+          <span className="text-white/20">•</span>
+          <span className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-white rounded-full"></div>
+            <span>Selected Page</span>
+          </span>
         </motion.div>
-
       </div>
     </section>
   );

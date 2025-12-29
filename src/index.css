@@ -6,7 +6,8 @@
 @font-face {
   font-family: 'Lovelo';
   src: url('/src/assets/fonts/lovelo/Lovelo_Black.otf') format('truetype');
-  font-weight: 900; /* Black weight */
+  font-weight: 900;
+  /* Black weight */
   font-style: normal;
 }
 
@@ -20,39 +21,11 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
-/* ========================= */
-/*  STANDARD DARK SCROLLBAR  */
-/* ========================= */
-
-/* Chrome, Edge, Safari */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #05060f;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom,
-      purple,
-      purple);
-  border-radius: 9999px;
-  border: 2px solid #05060f;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom,
-      purple,
-      purple);
-}
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: purple #05060f;
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .btn-main {
@@ -101,10 +74,12 @@ body {
 
 .card-border-animation {
   position: relative;
-  background-size: 300% 300%;
+  background-size: 200% 100%;
   animation: border-flow 6s linear infinite;
   border-radius: 1rem;
   padding: 3px;
+  will-change: background-position;
+  transform: translateZ(0);
 }
 
 .card-border-animation.purple {
@@ -125,19 +100,16 @@ body {
   background-image: linear-gradient(90deg,
       white,
       black,
-      grey);
+      grey,
+      white);
 }
 
 @keyframes border-flow {
-  0% {
+  from {
     background-position: 0% 50%;
   }
 
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
+  to {
+    background-position: 200% 50%;
   }
 }
