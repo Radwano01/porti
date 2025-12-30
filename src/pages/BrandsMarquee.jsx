@@ -11,10 +11,11 @@ export default function BrandsMarquee() {
   ];
 
   return (
-    <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-white py-14 overflow-hidden ">
+    <div className="relative left-1/2 right-1/2 -ml-[50vw] w-screen py-14 overflow-hidden
+                    bg-white backdrop-blur-md">
       {/* fade edges */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-white to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-white/20 to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white/20 to-transparent z-10" />
 
       {/* TRACK */}
       <div className="flex w-max animate-marquee">
@@ -23,16 +24,14 @@ export default function BrandsMarquee() {
           {brands.map((brand, i) => (
             <span
               key={`a-${i}`}
-              className="px-6 py-3 rounded-full
-                         text-black text-lg font-medium whitespace-nowrap
-                         bg-white shadow-sm"
+              className="text-black text-lg font-medium whitespace-nowrap"
             >
               {brand}
             </span>
           ))}
         </div>
 
-        {/* 🔑 GAP BETWEEN SETS */}
+        {/* GAP BETWEEN SETS */}
         <div className="w-28 shrink-0" />
 
         {/* SET B */}
@@ -40,9 +39,7 @@ export default function BrandsMarquee() {
           {brands.map((brand, i) => (
             <span
               key={`b-${i}`}
-              className="px-6 py-3 rounded-full
-                         text-black text-lg font-medium whitespace-nowrap
-                         bg-white shadow-sm"
+              className="text-black text-lg font-medium whitespace-nowrap"
             >
               {brand}
             </span>

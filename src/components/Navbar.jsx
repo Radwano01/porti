@@ -65,11 +65,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? "bg-black/30 backdrop-blur-lg shadow-lg"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
@@ -106,11 +105,10 @@ export default function Navbar() {
 
             {servicesOpen && (
               <div
-                className={`absolute left-1/2 top-full mt-4 -translate-x-1/2 z-50 transition-opacity duration-250 ${
-                  dropdownVisible ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute left-1/2 top-full mt-4 -translate-x-1/2 z-50 transition-opacity duration-250 ${dropdownVisible ? "opacity-100" : "opacity-0"
+                  }`}
               >
-                <div className="w-[720px] rounded-xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-2xl text-white animate-services-menu">
+                <div className="w-[720px] rounded-xl bg-black/90 border border-white/10 shadow-2xl text-white animate-services-menu">
 
                   {/* HEADER */}
                   <div className="border-b border-white/10 px-6 py-4 text-center">
@@ -120,75 +118,58 @@ export default function Navbar() {
                   </div>
 
                   {/* CONTENT */}
-                  <div className="grid grid-cols-3 gap-10 px-8 py-8 text-sm">
-
-                    <ul className="space-y-4">
+                  <div className="grid grid-cols-3 gap-10 px-8 py-8 text-sm justify-items-center">
+                    <ul className="space-y-4 text-center">
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-left"
                       >
                         Web Development
                       </li>
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-left"
                       >
                         UI / UX Design
                       </li>
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-left"
                       >
                         Branding
                       </li>
                     </ul>
 
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 text-center">
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-right"
                       >
                         Motion & 3D
                       </li>
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-right"
                       >
                         Paid Ads Services
                       </li>
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-right"
                       >
                         Shooting Services
                       </li>
                     </ul>
 
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 text-center">
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-left"
                       >
                         Graphic Design Services
                       </li>
                       <li
-                        onClick={() =>
-                          navigateToSection("services", { closeDropdown: false })
-                        }
+                        onClick={() => navigateToSection("services", { closeDropdown: false })}
                         className="hover:text-white transition cursor-pointer animate-option-left"
                       >
                         Photo Section

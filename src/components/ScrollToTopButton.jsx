@@ -1,35 +1,43 @@
 import { useEffect, useState } from "react";
 
 export default function ScrollToTopButton() {
-  const [atTop, setAtTop] = useState(true);
+  const [visible, setVisible] = useState(false); // Start hidden
 
   useEffect(() => {
     const handleScroll = () => {
-      setAtTop(window.scrollY <= 10);
+      if (window.scrollY > 10) {
+        setVisible(true); // Show button when user scrolls down
+      } else {
+        setVisible(false); // Hide button at top
+      }
     };
 
-    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToTop = () => {
+    setVisible(false); // Hide button while scrolling
+
     const topEl = document.getElementById("top");
     if (topEl) {
       topEl.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  return (
+  return visible ? (
     <button
       type="button"
       aria-label="Back to top"
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 z-[60] flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white shadow-lg shadow-purple-500/20 backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20 hover:shadow-purple-500/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-        atTop ? "opacity-80" : "opacity-100"
-      }`}
+      className="fixed bottom-6 right-6 z-[60] flex h-12 w-12 items-center justify-center rounded-full 
+        border border-white/30 bg-white/10 text-white shadow-lg shadow-white backdrop-blur-md
+        transition duration-200 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20 
+        hover:shadow-white focus-visible:outline focus-visible:outline-2 
+        focus-visible:outline-offset-2 focus-visible:outline-white"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -45,5 +53,5 @@ export default function ScrollToTopButton() {
         <path d="M6 11l6-6 6 6" />
       </svg>
     </button>
-  );
+  ) : null;
 }

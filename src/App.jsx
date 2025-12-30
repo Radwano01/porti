@@ -37,14 +37,14 @@ export default function App() {
               </section>
 
               {/* ABOUT */}
-              <section id="about">
+              {/* <section id="about">
                 <About />
-              </section>
+              </section> */}
 
               {/* PRIVACY */}
-              <section id="privacy">
+              {/* <section id="privacy">
                 <PrivacyPolicy />
-              </section>
+              </section> */}
 
               {/* SCROLL TO TOP BUTTON */}
               <ScrollToTopButton />
@@ -53,7 +53,7 @@ export default function App() {
         />
 
         {/* CONTACT PAGE */}
-        <Route path="/contact" element={<Contact />} />
+        {/* <Route path="/contact" element={<Contact />} /> */}
       </Routes>
     </Router>
   );

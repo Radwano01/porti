@@ -49,10 +49,6 @@ body::-webkit-scrollbar {
   will-change: transform;
 }
 
-.btn-main:hover {
-  transform: scale(1.05);
-}
-
 .btn-inner-glow {
   position: absolute;
   top: 50%;

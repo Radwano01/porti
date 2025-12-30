@@ -26,8 +26,6 @@ export default function HomepageContent({ startAnimation = true, onVideoLoaded }
         onLoadedData={onVideoLoaded} // ← notify parent when video is loaded
       />
 
-      {/* 🌑 Dark Overlay */}
-      <div className="absolute inset-0 w-full h-full bg-black opacity-50 z-10" />
 
       {/* 🚀 Hero Content */}
       <div className="relative z-20 flex flex-col items-start justify-start h-screen px-12 pt-40 text-left">
@@ -73,8 +71,8 @@ export default function HomepageContent({ startAnimation = true, onVideoLoaded }
                   style={{
                     background: `radial-gradient(
                       circle 120px at ${pos.x}px ${pos.y}px,
-                      rgba(255,255,255),
-                      rgba(255,255,255),
+                      #00caeb,
+                      #00caeb,
                       transparent 20%
                     )`,
                     opacity: hover ? 1 : 0,
