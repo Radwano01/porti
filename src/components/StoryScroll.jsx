@@ -1,11 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { Home, Layers, Info } from "lucide-react";
 
 const sections = [
   { id: "top", label: "Home" },
   { id: "services", label: "Services" },
   { id: "about", label: "About" },
 ];
+
+const sectionIcons = {
+  top: Home,
+  services: Layers,
+  about: Info,
+};
 
 export default function StoryScroll() {
   const [active, setActive] = useState("top");
@@ -14,9 +21,9 @@ export default function StoryScroll() {
   const containerRef = useRef(null);
   const draggingRef = useRef(false);
 
-  const isHome = location.pathname === "/"; // ✅ safe flag
+  const isHome = location.pathname === "/";
 
-  // Observe sections
+  // 🔍 Observe sections for active icon
   useEffect(() => {
     if (!isHome) return;
 
@@ -24,12 +31,14 @@ export default function StoryScroll() {
       (entries) => {
         let maxRatio = 0;
         let mostVisibleId = active;
+
         entries.forEach((entry) => {
           if (entry.intersectionRatio > maxRatio) {
             maxRatio = entry.intersectionRatio;
             mostVisibleId = entry.target.id;
           }
         });
+
         if (mostVisibleId) setActive(mostVisibleId);
       },
       { threshold: Array.from({ length: 101 }, (_, i) => i / 100) }
@@ -43,7 +52,7 @@ export default function StoryScroll() {
     return () => observer.disconnect();
   }, [active, isHome]);
 
-  // Passed sections
+  // 📍 Track passed sections
   useEffect(() => {
     if (!isHome) return;
 
@@ -58,10 +67,11 @@ export default function StoryScroll() {
 
     window.addEventListener("scroll", updatePassed, { passive: true });
     updatePassed();
+
     return () => window.removeEventListener("scroll", updatePassed);
   }, [isHome]);
 
-  // Drag behavior
+  // 🖱️ Drag scrolling
   useEffect(() => {
     if (!isHome) return;
 
@@ -74,7 +84,8 @@ export default function StoryScroll() {
       const y = e.clientY - rect.top;
       const pct = Math.min(Math.max(y / rect.height, 0), 1);
 
-      const scrollTop = pct * (document.body.scrollHeight - window.innerHeight);
+      const scrollTop =
+        pct * (document.body.scrollHeight - window.innerHeight);
       window.scrollTo({ top: scrollTop, behavior: "auto" });
     };
 
@@ -84,42 +95,57 @@ export default function StoryScroll() {
 
     window.addEventListener("mousemove", handleDrag);
     window.addEventListener("mouseup", handleMouseUp);
+
     return () => {
       window.removeEventListener("mousemove", handleDrag);
       window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isHome]);
 
-  // ✅ Conditional render AFTER hooks
+  // ❗ Safe conditional render
   if (!isHome) return null;
 
   return (
     <div
       ref={containerRef}
-      className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center cursor-pointer select-none"
+      className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center select-none"
       onMouseDown={() => (draggingRef.current = true)}
     >
       {sections.map((s, i) => {
+        const Icon = sectionIcons[s.id];
         const nextSection = sections[i + 1];
-        const dotActive = passed[i];
+        const isActive = passed[i];
 
         return (
           <div key={s.id} className="flex flex-col items-center">
+            {/* Icon */}
             <button
               onClick={() =>
-                document.getElementById(s.id)?.scrollIntoView({ behavior: "smooth" })
+                document
+                  .getElementById(s.id)
+                  ?.scrollIntoView({ behavior: "smooth" })
               }
-              className={`w-3 h-3 rounded-full transition-all duration-300
-                ${dotActive
-                  ? "bg-[#00caeb] scale-125 shadow-[0_0_12px_#00caeb]"
-                  : "bg-white hover:bg-[#00caeb]/60"
+              title={s.label}
+              className={`w-9 h-9 flex items-center justify-center rounded-full
+                transition-all duration-300
+                ${
+                  isActive
+                    ? "bg-[#00caeb] text-black scale-110 shadow-[0_0_14px_#00caeb]"
+                    : "bg-white/10 text-white hover:bg-[#00caeb]/30"
                 }`}
-            />
+            >
+              <Icon size={18} />
+            </button>
+
+            {/* Line */}
             {nextSection && (
               <div
-                className={`w-0.5 h-6 mt-1 transition-colors duration-300 ${
-                  dotActive ? "bg-[#00caeb]" : "bg-white/30"
-                }`}
+                className={`w-0.5 h-7 transition-colors duration-300
+                  ${
+                    isActive
+                      ? "bg-[#00caeb]"
+                      : "bg-white/30"
+                  }`}
               />
             )}
           </div>

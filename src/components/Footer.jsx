@@ -7,10 +7,11 @@ export default function Footer() {
       <div className="w-full h-px bg-white/30" />
 
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
+
           {/* Brand */}
-          <div>
+          <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <img
                 src={logo}
@@ -18,7 +19,7 @@ export default function Footer() {
                 className="w-7 h-7 object-contain"
               />
               <span className="text-white font-semibold text-lg">
-                Mordev
+                Mordev Arcane
               </span>
             </div>
 
@@ -36,21 +37,44 @@ export default function Footer() {
               </p>
               <p>
                 Email <br />
-                <span className="text-white">
-                  support@mordev.com
-                </span>
+                <span className="text-white">support@mordev.com</span>
               </p>
             </div>
           </div>
 
-          {/* Quick links */}
-          <div>
-            <h4 className="text-white font-medium mb-4">Quick links</h4>
-            <ul className="space-y-2 text-sm">
-              <li className="hover:text-white cursor-pointer">About us</li>
-              <li className="hover:text-white cursor-pointer">FAQ</li>
-              <li className="hover:text-white cursor-pointer">Contact us</li>
-            </ul>
+          {/* SERVICES (PROFESSIONAL LAYOUT) */}
+          <div className="md:col-span-2">
+            <h4 className="text-white font-medium mb-6">Services</h4>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 text-sm">
+              <span className="hover:text-white cursor-pointer">
+                Web Development
+              </span>
+              <span className="hover:text-white cursor-pointer">
+                Motion & 3D
+              </span>
+
+              <span className="hover:text-white cursor-pointer">
+                UI / UX Design
+              </span>
+              <span className="hover:text-white cursor-pointer">
+                Paid Ads Services
+              </span>
+
+              <span className="hover:text-white cursor-pointer">
+                Branding
+              </span>
+              <span className="hover:text-white cursor-pointer">
+                Shooting Services
+              </span>
+
+              <span className="hover:text-white cursor-pointer">
+                Graphic Design Services
+              </span>
+              <span className="hover:text-white cursor-pointer">
+                Photo Section
+              </span>
+            </div>
           </div>
 
           {/* Social */}
@@ -69,15 +93,22 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-medium mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li className="hover:text-white cursor-pointer">Terms of service</li>
-              <li className="hover:text-white cursor-pointer">Privacy policy</li>
-              <li className="hover:text-white cursor-pointer">Cookie policy</li>
+              <li className="hover:text-white cursor-pointer">
+                Terms of service
+              </li>
+              <li className="hover:text-white cursor-pointer">
+                Privacy policy
+              </li>
+              <li className="hover:text-white cursor-pointer">
+                Cookie policy
+              </li>
             </ul>
           </div>
         </div>
 
+        {/* Bottom */}
         <div className="mt-16 text-center text-xs text-gray-500">
-          © 2026 Mordev. All rights reserved.
+          © 2026 Mordev Arcane. All rights reserved.
         </div>
       </div>
     </footer>
