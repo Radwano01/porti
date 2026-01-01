@@ -64,11 +64,6 @@ export default function Contact() {
         {loading && <Loader />}
       </AnimatePresence>
 
-      {/* Falling Stars */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <FallingStarsScene />
-      </div>
-
       {/* Sun / Moon */}
       <div className="absolute inset-0 w-full h-full z-10 pointer-events-none">
         <AnimatePresence mode="wait">

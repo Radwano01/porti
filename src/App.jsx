@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import BrandsMarquee from "./pages/BrandsMarquee";
 import StoryScroll from "./components/StoryScroll";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -53,8 +54,9 @@ export default function App() {
         />
 
         {/* CONTACT PAGE */}
-        {/* <Route path="/contact" element={<Contact />} /> */}
+        <Route path="/contact" element={<Contact />} />
       </Routes>
+      <Footer/>
     </Router>
   );
 }
