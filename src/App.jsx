@@ -37,9 +37,9 @@ export default function App() {
               </section>
 
               {/* ABOUT */}
-              {/* <section id="about">
+              <section id="about">
                 <About />
-              </section> */}
+              </section>
 
               {/* PRIVACY */}
               {/* <section id="privacy">

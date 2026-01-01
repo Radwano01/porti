@@ -1,81 +1,210 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PAGES = [
-  { id: 1, color: "from-red-500 to-pink-500", number: "01" },
-  { id: 2, color: "from-blue-500 to-cyan-500", number: "02" },
-  { id: 3, color: "from-green-500 to-emerald-500", number: "03" },
-  { id: 4, color: "from-purple-500 to-violet-500", number: "04" },
-  { id: 5, color: "from-orange-500 to-amber-500", number: "05" },
+  { id: 1, label: "Page1" },
+  { id: 2, label: "Page2" },
+  { id: 3, label: "Page3" },
+  { id: 4, label: "Page4" },
+  { id: 5, label: "Page5" },
 ];
+
+const CARD_WIDTH = 520;
+const STACK_PEEK = 0.11;
 
 export default function StackedCards() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const cardWidth = 400; // px
-  const peek = 0.2; // right cards visible percentage
+  const [stack, setStack] = useState(
+    PAGES.map((_, i) => i).filter(i => i !== 0)
+  );
 
-  const handlePrev = () => setSelectedIndex((prev) => Math.max(prev - 1, 0));
-  const handleNext = () => setSelectedIndex((prev) => Math.min(prev + 1, PAGES.length - 1));
+  function swapToSelected(nextIndex) {
+    if (nextIndex === selectedIndex) return;
+
+    setStack(prev => {
+      const filtered = prev.filter(i => i !== nextIndex);
+      return [selectedIndex, ...filtered];
+    });
+
+    setSelectedIndex(nextIndex);
+  }
+
+  function nextPage() {
+    swapToSelected((selectedIndex + 1) % PAGES.length);
+  }
+
+  function prevPage() {
+    swapToSelected((selectedIndex - 1 + PAGES.length) % PAGES.length);
+  }
+
+  /* ===== SHARED NAV (DESKTOP + MOBILE) ===== */
+  const Navigation = (
+    <div className="flex items-center gap-6 mt-6">
+      {/* PREV */}
+      <button
+        onClick={prevPage}
+        className="group w-12 h-12 rounded-full
+          bg-white hover:bg-[#00caeb]/15
+          transition flex items-center justify-center"
+      >
+        <ChevronLeft
+          className="w-6 h-6 text-black
+            group-hover:text-[#00caeb] transition"
+        />
+      </button>
+
+      {/* DOTS */}
+      <div className="flex items-center gap-3">
+        {PAGES.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => swapToSelected(index)}
+            className={`w-3 h-3 rounded-full transition
+              ${
+                index === selectedIndex
+                  ? "bg-[#00caeb] scale-125"
+                  : "bg-white hover:bg-[#00caeb]/60"
+              }`}
+          />
+        ))}
+      </div>
+
+      {/* NEXT */}
+      <button
+        onClick={nextPage}
+        className="group w-12 h-12 rounded-full
+          bg-white hover:bg-[#00caeb]/15
+          transition flex items-center justify-center"
+      >
+        <ChevronRight
+          className="w-6 h-6 text-black
+            group-hover:text-[#00caeb] transition"
+        />
+      </button>
+    </div>
+  );
 
   return (
-    <div className="relative w-full h-[700px] md:h-[800px] flex flex-col items-center justify-center overflow-hidden">
-      {/* Card Container */}
-      <div className="relative w-full max-w-6xl h-[500px] md:h-[600px] flex items-center justify-center">
-        {PAGES.map((page, index) => {
-          const offsetIndex = index - selectedIndex;
-          const isSelected = index === selectedIndex;
+    <div className="w-full flex flex-col items-center overflow-hidden">
 
-          // calculate x position
-          let x = offsetIndex * cardWidth * peek;
-          if (offsetIndex < 0) x = offsetIndex * cardWidth * 0.8; // left stack
+      {/* ================= DESKTOP ================= */}
+      <div className="hidden md:flex w-full h-[700px] items-center justify-center">
+        <div className="w-full max-w-7xl h-[620px] flex items-center justify-center">
 
-          const scale = isSelected ? 1 : 0.85;
-          const zIndex = isSelected ? 100 : 50 - Math.abs(offsetIndex);
+          {/* LEFT STACK */}
+          <div className="flex-1 h-full flex items-center justify-end pr-24">
+            <div className="relative h-full w-[720px]">
+              {stack.map((pageIndex, depth) => {
+                const x = depth * CARD_WIDTH * STACK_PEEK;
+                const opacity = 1 - depth * 0.15;
 
-          return (
-            <motion.div
-              key={page.id}
-              animate={{ x, scale }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              style={{ zIndex }}
-              className="absolute top-0 h-full w-[400px] md:w-[450px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl"
-              onClick={() => setSelectedIndex(index)}
-            >
-              <div className={`absolute inset-0 bg-gradient-to-br ${page.color}`} />
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
-              <div className="relative h-full w-full flex items-center justify-center">
-                <div className="text-white/20 text-[200px] md:text-[250px] font-black tracking-tighter leading-none">
-                  {page.number}
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
+                return (
+                  <motion.div
+                    key={PAGES[pageIndex].id}
+                    animate={{ x, scale: 0.9, opacity }}
+                    transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ zIndex: 50 - depth }}
+                    onClick={() => swapToSelected(pageIndex)}
+                    className="absolute inset-0 w-[700px]
+                      rounded-3xl shadow-2xl cursor-pointer bg-white"
+                  >
+                    <Page label={PAGES[pageIndex].label} />
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* RIGHT SELECTED */}
+          <div className="flex-1 h-full flex items-center justify-start pl-24">
+            <div className="relative h-full w-[900px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={PAGES[selectedIndex].id}
+                  initial={{ x: 200, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -200, opacity: 0 }}
+                  transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0
+                    rounded-3xl shadow-2xl bg-white"
+                >
+                  <Page label={PAGES[selectedIndex].label} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Navigation Arrows at the Bottom */}
-      <div className="mt-8 flex items-center gap-8">
-        <button
-          onClick={handlePrev}
-          disabled={selectedIndex === 0}
-          className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border-2 border-white/30
-            flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed
-            hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-xl"
-        >
-          <ChevronLeft size={28} className="text-white" />
-        </button>
+      {/* DESKTOP NAV */}
+      <div className="hidden md:flex">{Navigation}</div>
 
-        <button
-          onClick={handleNext}
-          disabled={selectedIndex === PAGES.length - 1}
-          className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border-2 border-white/30
-            flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed
-            hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-xl"
-        >
-          <ChevronRight size={28} className="text-white" />
-        </button>
+      {/* ================= MOBILE ================= */}
+      <div className="md:hidden w-full flex flex-col items-center gap-6 px-4 min-h-[900px]">
+
+        {/* SELECTED */}
+        <div className="relative w-full h-[300px] sm:h-[350px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={PAGES[selectedIndex].id}
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -40, opacity: 0 }}
+              transition={{ duration: 0.45 }}
+              className="absolute inset-0
+                rounded-2xl shadow-2xl bg-white"
+            >
+              <Page label={PAGES[selectedIndex].label} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* STACK */}
+        <div className="relative w-full h-[320px] sm:h-[360px]">
+          {stack.map((pageIndex, depth) => {
+            const y = depth * 18;
+            const scale = 1 - depth * 0.05;
+            const opacity = 1 - depth * 0.15;
+
+            return (
+              <motion.div
+                key={PAGES[pageIndex].id}
+                animate={{ y, scale, opacity }}
+                transition={{ duration: 0.4 }}
+                style={{ zIndex: 20 - depth }}
+                onClick={() => swapToSelected(pageIndex)}
+                className="absolute inset-0
+                  rounded-2xl shadow-xl cursor-pointer bg-white"
+              >
+                <Page label={PAGES[pageIndex].label} />
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* MOBILE NAV — SAME AS DESKTOP */}
+        {Navigation}
       </div>
     </div>
+  );
+}
+
+/* ================= PAGE ================= */
+function Page({ label }) {
+  return (
+    <>
+      <div className="absolute inset-0 bg-white" />
+      <div
+        className="absolute inset-0 opacity-10
+        bg-[radial-gradient(#000_1px,transparent_1px)]
+        [background-size:22px_22px]"
+      />
+      <div className="relative h-full flex items-center justify-center">
+        <div className="text-black/20 text-[120px] font-black">
+          {label}
+        </div>
+      </div>
+    </>
   );
 }
